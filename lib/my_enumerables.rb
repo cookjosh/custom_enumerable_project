@@ -77,9 +77,35 @@ module Enumerable
 
   def my_count
     if block_given?
-
+      i = 0
+      my_each {|elem| i += 1 if yield elem}
+      return i
     else
-      puts "No block given"
+      return self.size
+    end
+  end
+
+  def my_map
+    if block_given?
+      result_array = []
+      my_each do |elem| 
+        new_elem = yield elem
+        result_array.push(new_elem)
+      end
+      return result_array
+    else
+      'No block given'
+    end
+  end
+
+  def my_inject(i)
+    if block_given?
+      my_each do |elem| 
+        i = yield elem, i
+      end
+      return i
+    else
+      'No block given'
     end
   end
 end
