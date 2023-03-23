@@ -12,6 +12,76 @@ module Enumerable
       puts "No block given"
     end
   end
+
+  def my_select
+    if block_given?
+      result = []
+      my_each {|elem| result.push(elem) if yield elem}
+      return result
+    else
+      puts "No block given"
+    end
+  end
+
+  def my_all?
+    if block_given?
+      holding_array = []
+      my_each do |elem| 
+        if yield elem
+          holding_array.push(elem)
+        end
+      end
+      if holding_array.length == self.length
+        return true
+      else
+        return false
+      end
+      #self.all? {|elem| yield elem} # This is probably cheating...
+    else
+      puts "No block given"
+    end
+  end
+
+  def my_any?
+    if block_given?
+      holding_array = []
+      my_each do |elem| 
+        if yield elem
+          holding_array.push(elem)
+        end
+      end
+      if holding_array.length > 0
+        return true
+      else
+        return false
+      end
+    else
+      puts "No block given"
+    end
+  end
+
+  def my_none?
+    if block_given?
+      holding_array = []
+      my_each {|elem| holding_array.push(elem) if yield elem}
+      p holding_array.length
+      if holding_array.length > 0
+        return false
+      else
+        return true
+      end
+    else
+      puts "No block given"
+    end
+  end
+
+  def my_count
+    if block_given?
+
+    else
+      puts "No block given"
+    end
+  end
 end
 
 # You will first have to define my_each
@@ -19,7 +89,6 @@ end
 # your enumerable module will have access
 # to this method
 class Array
-  include Enumerable
   # Define my_each here
   def my_each
     for elem in self do
